@@ -2,57 +2,30 @@ package come.point.mall.pointmallbackend.service;
 
 import com.github.pagehelper.PageInfo;
 import come.point.mall.pointmallbackend.common.ServerResponse;
+import come.point.mall.pointmallbackend.pojo.Order;
+import come.point.mall.pointmallbackend.vo.OrderProductVo;
 import come.point.mall.pointmallbackend.vo.OrderVo;
 
+import java.util.List;
 import java.util.Map;
 
 public interface OrderService {
-    /**
-     * 支付
-     * @param orderNo
-     * @param userId
-     * @param path
-     * @return
-     */
-    ServerResponse pay(Long orderNo, Integer userId, String path);
-
-    /**
-     * 回调
-     * @param params
-     * @return
-     */
-    ServerResponse aliCallback(Map<String,String> params);
-
-    /**
-     * 查询订单状态
-     * @param userId
-     * @param orderNo
-     * @return
-     */
-    ServerResponse queryOrderPayStatus(Integer userId,Long orderNo);
 
     /**
      * 创建订单
      * @param userId
-     * @param shippingId
+     * @param addressId
      * @return
      */
-    ServerResponse createOrder(Integer userId,Integer shippingId);
+    ServerResponse createOrder(Integer userId, Integer addressId, List<OrderProductVo> products);
 
     /**
-     * 取消订单
-     * @param userId
-     * @param orderNo
+     * 变更订单状态
+     * @param orderId
+     * @param status
      * @return
      */
-    ServerResponse<String> cancel(Integer userId,Long orderNo);
-
-    /**
-     * 获取购物车中商品信息
-     * @param uesrId
-     * @return
-     */
-    ServerResponse getOrderCartProduct(Integer uesrId);
+    ServerResponse updateOrderStatus(Integer orderId,Integer status);
 
     /**
      * 获取订单详情
@@ -60,7 +33,7 @@ public interface OrderService {
      * @param orderNo
      * @return
      */
-    ServerResponse<OrderVo> getOrderDetail(Integer userId, Long orderNo);
+    ServerResponse<Order> getOrderDetail(Integer userId, Long orderNo);
 
     /**
      * 获取订单列表
@@ -70,6 +43,14 @@ public interface OrderService {
      * @return
      */
     ServerResponse<PageInfo> getOrderList(Integer userId, int pageNum, int pageSize);
+
+    /**
+     * 查询订单状态
+     * @param userId
+     * @param orderNo
+     * @return
+     */
+    ServerResponse queryOrderPayStatus(Integer userId,Long orderNo);
 
 
     //backend
@@ -86,16 +67,7 @@ public interface OrderService {
      * @param orderNo
      * @return
      */
-    ServerResponse<OrderVo> manageDetail(Long orderNo);
-
-    /**
-     * 按订单号搜索
-     * @param orderNo
-     * @param pageNum
-     * @param pageSize
-     * @return
-     */
-    ServerResponse<PageInfo> manageSearch(Long orderNo,int pageNum,int pageSize);
+    ServerResponse<Order> manageDetail(Long orderNo);
 
     /**
      * 发货
@@ -109,4 +81,23 @@ public interface OrderService {
      * @param hour
      */
     void closeOrder(int hour);
+
+
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+//    /**
+//     * 支付
+//     * @param orderNo
+//     * @param userId
+//     * @param path
+//     * @return
+//     */
+//    ServerResponse pay(Long orderNo, Integer userId, String path);
+//
+//    /**
+//     * 回调
+//     * @param params
+//     * @return
+//     */
+//    ServerResponse aliCallback(Map<String,String> params);
 }

@@ -26,4 +26,6 @@ public interface ProductMapper {
     int updateByPrimaryKey(Product record);
 
     List<Product> selectList();
+
+    Integer selectStockByProductId(Integer id);
 }
