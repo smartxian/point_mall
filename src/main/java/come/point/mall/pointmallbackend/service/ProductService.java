@@ -4,6 +4,8 @@ import com.github.pagehelper.PageInfo;
 import come.point.mall.pointmallbackend.common.ServerResponse;
 import come.point.mall.pointmallbackend.pojo.Product;
 
+import java.util.List;
+
 public interface ProductService {
     /**
      * 创建或编辑商品
@@ -30,4 +32,6 @@ public interface ProductService {
      * @return
      */
     ServerResponse<Product> getProductDetail(Integer productId);
+
+    ServerResponse<List<Product>> getProductByCategoryId(Integer categoryId, int start, int num);
 }

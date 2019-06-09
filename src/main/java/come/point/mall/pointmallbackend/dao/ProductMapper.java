@@ -2,6 +2,7 @@ package come.point.mall.pointmallbackend.dao;
 
 import come.point.mall.pointmallbackend.pojo.Product;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.stereotype.Repository;
 
@@ -28,4 +29,6 @@ public interface ProductMapper {
     List<Product> selectList();
 
     Integer selectStockByProductId(Integer id);
+
+    List<Product> selectByCategory(@Param("categoryId") Integer categoryId, @Param("start")int start, @Param("num")int num);
 }

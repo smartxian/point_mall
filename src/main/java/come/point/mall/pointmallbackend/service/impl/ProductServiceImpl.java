@@ -88,4 +88,9 @@ public class ProductServiceImpl implements ProductService {
         }
         return ServerResponse.createBySuccess(product);
     }
+
+    @Override
+    public ServerResponse<List<Product>> getProductByCategoryId(Integer categoryId, int start, int num) {
+        return ServerResponse.createBySuccess(productMapper.selectByCategory(categoryId, start, num));
+    }
 }

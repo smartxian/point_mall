@@ -168,4 +168,12 @@
     where id = #{id}
     for update
   </select>
+
+  <select id="selectByCategory" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from mmall_product
+    where category_id = #{categoryId}
+    limit #{start},#{num}
+  </select>
 </mapper>

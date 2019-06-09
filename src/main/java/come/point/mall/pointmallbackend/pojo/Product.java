@@ -5,13 +5,14 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.math.BigDecimal;
 import java.util.Date;
+import org.springframework.data.elasticsearch.annotations.Document;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Document(indexName = "mall", type = "product")
 public class Product {
     private Integer id;
 
