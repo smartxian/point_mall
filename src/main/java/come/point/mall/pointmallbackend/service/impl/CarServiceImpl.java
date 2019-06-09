@@ -11,8 +11,8 @@ import come.point.mall.pointmallbackend.pojo.Car;
 import come.point.mall.pointmallbackend.pojo.Product;
 import come.point.mall.pointmallbackend.service.CarService;
 import come.point.mall.pointmallbackend.utils.BigDecimalUtil;
-import come.point.mall.pointmallbackend.vo.CartProductVo;
-import come.point.mall.pointmallbackend.vo.CartVo;
+import come.point.mall.pointmallbackend.vo.CarProductVo;
+import come.point.mall.pointmallbackend.vo.CarVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.apache.commons.collections.CollectionUtils;
@@ -34,7 +34,7 @@ public class CarServiceImpl implements CarService {
      * @return
      */
     @Override
-    public ServerResponse<CartVo> add(Integer userId,Integer productId,Integer count) {
+    public ServerResponse<CarVo> add(Integer userId, Integer productId, Integer count) {
         //参数不正确
         if(productId == null || count == null) {
             return ServerResponse.createByErrorCodeMessage(ResponseCode.ILLEGAL_ARGUMENT.getCode(),ResponseCode.ILLEGAL_ARGUMENT.getDesc());
@@ -56,8 +56,8 @@ public class CarServiceImpl implements CarService {
             cart.setQuantity(count);
             carMapper.updateByPrimaryKeySelective(cart);
         }
-        CartVo cartVo = this.getCartVoLimit(userId);
-        return ServerResponse.createBySuccess(cartVo);
+        CarVo carVo = this.getCartVoLimit(userId);
+        return ServerResponse.createBySuccess(carVo);
     }
 
 
@@ -69,19 +69,19 @@ public class CarServiceImpl implements CarService {
      * @return
      */
     @Override
-    public ServerResponse<CartVo> update(Integer userId,Integer productId,Integer count) {
+    public ServerResponse<CarVo> update(Integer userId, Integer productId, Integer count) {
         //参数不正确
         if(productId == null || count == null) {
             return ServerResponse.createByErrorCodeMessage(ResponseCode.ILLEGAL_ARGUMENT.getCode(),ResponseCode.ILLEGAL_ARGUMENT.getDesc());
         }
 
-        Car cart = carMapper.selectCartByUserIdProductId(userId,productId);
-        if(cart != null) {
-            cart.setQuantity(count);
+        Car car = carMapper.selectCartByUserIdProductId(userId,productId);
+        if(car != null) {
+            car.setQuantity(count);
         }
-        carMapper.updateByPrimaryKeySelective(cart);
-        CartVo cartVo = this.getCartVoLimit(userId);
-        return ServerResponse.createBySuccess(cartVo);
+        carMapper.updateByPrimaryKeySelective(car);
+        CarVo carVo = this.getCartVoLimit(userId);
+        return ServerResponse.createBySuccess(carVo);
     }
 
 
@@ -92,15 +92,15 @@ public class CarServiceImpl implements CarService {
      * @return
      */
     @Override
-    public ServerResponse<CartVo> deleteProduct(Integer userId,String productIds) {
+    public ServerResponse<CarVo> deleteProduct(Integer userId, String productIds) {
         //用","分隔字符串，自动添加到集合中
         List<String> productList  = Splitter.on(",").splitToList(productIds);
         if(CollectionUtils.isEmpty(productList)) {
             return ServerResponse.createByErrorCodeMessage(ResponseCode.ILLEGAL_ARGUMENT.getCode(),ResponseCode.ILLEGAL_ARGUMENT.getDesc());
         }
         carMapper.deleteByUserIdProductIds(userId,productList);
-        CartVo cartVo = this.getCartVoLimit(userId);
-        return ServerResponse.createBySuccess(cartVo);
+        CarVo carVo = this.getCartVoLimit(userId);
+        return ServerResponse.createBySuccess(carVo);
     }
 
 
@@ -110,9 +110,9 @@ public class CarServiceImpl implements CarService {
      * @return
      */
     @Override
-    public ServerResponse<CartVo> list(Integer userId) {
-        CartVo cartVo = this.getCartVoLimit(userId);
-        return ServerResponse.createBySuccess(cartVo);
+    public ServerResponse<CarVo> list(Integer userId) {
+        CarVo carVo = this.getCartVoLimit(userId);
+        return ServerResponse.createBySuccess(carVo);
     }
 
     /**
@@ -122,7 +122,7 @@ public class CarServiceImpl implements CarService {
      * @return
      */
     @Override
-    public ServerResponse<CartVo> selectOrUnSelect(Integer userId,Integer productId,Integer checked) {
+    public ServerResponse<CarVo> selectOrUnSelect(Integer userId, Integer productId, Integer checked) {
         carMapper.checkedOrUncheckedProduct(userId,productId,checked);
         return this.list(userId);
     }
@@ -147,63 +147,63 @@ public class CarServiceImpl implements CarService {
      * @param userId
      * @return
      */
-    private CartVo getCartVoLimit(Integer userId) {
-        CartVo cartVo = new CartVo();
+    private CarVo getCartVoLimit(Integer userId) {
+        CarVo carVo = new CarVo();
         List<Car> cartList = carMapper.selectCarByUserId(userId);
 
-        List<CartProductVo> cartProductVoList = Lists.newArrayList();
+        List<CarProductVo> carProductVoList = Lists.newArrayList();
 
         BigDecimal cartTotalPrice = new BigDecimal("0");
 
         if(CollectionUtils.isNotEmpty(cartList)) {
             for (Car cartItem : cartList) {
-                CartProductVo cartProductVo = new CartProductVo();
-                cartProductVo.setId(cartItem.getId());
-                cartProductVo.setUserId(userId);
-                cartProductVo.setProductId(cartItem.getProductId());
+                CarProductVo carProductVo = new CarProductVo();
+                carProductVo.setId(cartItem.getId());
+                carProductVo.setUserId(userId);
+                carProductVo.setProductId(cartItem.getProductId());
                 Product product = productMapper.selectByPrimaryKey(cartItem.getProductId());
 
                 if(product != null) {
-                    cartProductVo.setProductMainImage(product.getMainImage());
-                    cartProductVo.setProductName(product.getName());
-                    cartProductVo.setProductSubTitle(product.getSubtitle());
-//                    cartProductVo.setProductStatus(product.getStatus());
-                    cartProductVo.setProductPrice(product.getPrice());
-                    cartProductVo.setProductStock(product.getStock());
+                    carProductVo.setProductMainImage(product.getMainImage());
+                    carProductVo.setProductName(product.getName());
+                    carProductVo.setProductSubTitle(product.getSubtitle());
+//                    carProductVo.setProductStatus(product.getStatus());
+                    carProductVo.setProductPrice(product.getPrice());
+                    carProductVo.setProductStock(product.getStock());
                     //判断库存
                     int buyLimitCount = 0;
                     if(product.getStock() >= cartItem.getQuantity()) {
                         //库存充足的时候
                         buyLimitCount = cartItem.getQuantity();
                         //产品的库存大于购物车中商品的数量
-                        cartProductVo.setLimitQuantity(Const.Cart.LIMIT_NUM_SUCCESS);
+                        carProductVo.setLimitQuantity(Const.Cart.LIMIT_NUM_SUCCESS);
                     } else {
                         buyLimitCount = product.getStock();
-                        cartProductVo.setLimitQuantity(Const.Cart.LIMIT_NUM_FAIL);
+                        carProductVo.setLimitQuantity(Const.Cart.LIMIT_NUM_FAIL);
                         //购物车中更新有效库存
                         Car cartForQuantity = new Car();
                         cartForQuantity.setId(cartItem.getId());
                         cartForQuantity.setQuantity(buyLimitCount);
                         carMapper.updateByPrimaryKeySelective(cartForQuantity);
                     }
-                    cartProductVo.setQuantity(buyLimitCount);
+                    carProductVo.setQuantity(buyLimitCount);
                     //计算总价
-//                    cartProductVo.setProductTotalPrice(BigDecimalUtil.mul(product.getPrice().doubleValue(),cartProductVo.getQuantity()));//某一产品的总价
-                    cartProductVo.setProductTotalPrice(Math.multiplyExact(product.getPrice(),cartProductVo.getQuantity()));
-                    cartProductVo.setProductChecked(cartItem.getChecked());
+//                    carProductVo.setProductTotalPrice(BigDecimalUtil.mul(product.getPrice().doubleValue(),carProductVo.getQuantity()));//某一产品的总价
+                    carProductVo.setProductTotalPrice(Math.multiplyExact(product.getPrice(), carProductVo.getQuantity()));
+                    carProductVo.setProductChecked(cartItem.getChecked());
                 }
                 if(cartItem.getChecked() == Const.Cart.CHECKED) {
                     //如果已经勾选，增加到整个购物车总价值中
-                    cartTotalPrice = BigDecimalUtil.add(cartTotalPrice.doubleValue(),cartProductVo.getProductTotalPrice().doubleValue());
+                    cartTotalPrice = BigDecimalUtil.add(cartTotalPrice.doubleValue(), carProductVo.getProductTotalPrice().doubleValue());
                 }
-                cartProductVoList.add(cartProductVo);
+                carProductVoList.add(carProductVo);
             }
         }
-        cartVo.setCartTotalPrice(cartTotalPrice);
-        cartVo.setCartProductVoList(cartProductVoList);
-        cartVo.setAllChecked(this.getAllCheckedStatus(userId));
-//        cartVo.setImageHost(PropertiesUtil.getProperty("ftp.server.http.prefix"));
-        return cartVo;
+        carVo.setCartTotalPrice(cartTotalPrice);
+        carVo.setCarProductVoList(carProductVoList);
+        carVo.setAllChecked(this.getAllCheckedStatus(userId));
+//        carVo.setImageHost(PropertiesUtil.getProperty("ftp.server.http.prefix"));
+        return carVo;
     }
 
 

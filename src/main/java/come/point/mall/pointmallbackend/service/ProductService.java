@@ -3,20 +3,31 @@ package come.point.mall.pointmallbackend.service;
 import com.github.pagehelper.PageInfo;
 import come.point.mall.pointmallbackend.common.ServerResponse;
 import come.point.mall.pointmallbackend.pojo.Product;
-import come.point.mall.pointmallbackend.vo.ProductDetailVo;
 
 public interface ProductService {
+    /**
+     * 创建或编辑商品
+     * @param product
+     * @return
+     */
     ServerResponse saveOrUpdateProduct(Product product);
 
-    ServerResponse setSaleStatus(Integer productId,Integer status);
-
-    ServerResponse<ProductDetailVo> manageProductDetail(Integer productId);
-
+    /**
+     * 获取商品列表
+     * @param pageNum
+     * @param pageSize
+     * @return
+     */
     ServerResponse<PageInfo> getProductList(int pageNum, int pageSize);
 
     ServerResponse<PageInfo> searchProduct(String productName,Integer productId,int pageNum,int pageSize);
 
     ServerResponse<PageInfo> getProductByKeywordCategory(String keyword,Integer categoryId,int pageNum,int pageSize,String orderBy);
 
-    ServerResponse<ProductDetailVo> getProductDetail(Integer productId);
+    /**
+     * 获取商品详情
+     * @param productId
+     * @return
+     */
+    ServerResponse<Product> getProductDetail(Integer productId);
 }

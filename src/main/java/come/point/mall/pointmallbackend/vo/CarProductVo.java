@@ -2,10 +2,9 @@ package come.point.mall.pointmallbackend.vo;
 
 import lombok.Data;
 
-import java.math.BigDecimal;
 
 @Data
-public class CartProductVo {
+public class CarProductVo {
     //结合了产品和购物车的一个抽象对象
     private Integer id;
     private Integer userId;

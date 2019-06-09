@@ -5,7 +5,7 @@ import come.point.mall.pointmallbackend.common.ResponseCode;
 import come.point.mall.pointmallbackend.common.ServerResponse;
 import come.point.mall.pointmallbackend.pojo.User;
 import come.point.mall.pointmallbackend.service.CarService;
-import come.point.mall.pointmallbackend.vo.CartVo;
+import come.point.mall.pointmallbackend.vo.CarVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,7 +28,7 @@ public class CarController {
      */
     @RequestMapping("add.do")
     @ResponseBody
-    public ServerResponse<CartVo> add(HttpSession session, Integer count, Integer productId) {
+    public ServerResponse<CarVo> add(HttpSession session, Integer count, Integer productId) {
         User user = (User)session.getAttribute(Const.CURRENT_USER);
         if(user == null) {
             return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(),ResponseCode.NEED_LOGIN.getDesc());
@@ -45,7 +45,7 @@ public class CarController {
      */
     @RequestMapping("update.do")
     @ResponseBody
-    public ServerResponse<CartVo> update(HttpSession session, Integer count, Integer productId) {
+    public ServerResponse<CarVo> update(HttpSession session, Integer count, Integer productId) {
         User user = (User)session.getAttribute(Const.CURRENT_USER);
         if(user == null) {
             return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(),ResponseCode.NEED_LOGIN.getDesc());
@@ -61,7 +61,7 @@ public class CarController {
      */
     @RequestMapping("delete_product.do")
     @ResponseBody
-    public ServerResponse<CartVo> deleteProduct(HttpSession session,String productIds) {
+    public ServerResponse<CarVo> deleteProduct(HttpSession session, String productIds) {
         User user = (User)session.getAttribute(Const.CURRENT_USER);
         if(user == null) {
             return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(),ResponseCode.NEED_LOGIN.getDesc());
@@ -76,7 +76,7 @@ public class CarController {
      */
     @RequestMapping("list.do")
     @ResponseBody
-    public ServerResponse<CartVo> list(HttpSession session) {
+    public ServerResponse<CarVo> list(HttpSession session) {
         User user = (User)session.getAttribute(Const.CURRENT_USER);
         if(user == null) {
             return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(),ResponseCode.NEED_LOGIN.getDesc());
@@ -91,7 +91,7 @@ public class CarController {
      */
     @RequestMapping("select_all.do")
     @ResponseBody
-    public ServerResponse<CartVo> selectAll(HttpSession session) {
+    public ServerResponse<CarVo> selectAll(HttpSession session) {
         User user = (User)session.getAttribute(Const.CURRENT_USER);
         if(user == null) {
             return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(),ResponseCode.NEED_LOGIN.getDesc());
@@ -106,7 +106,7 @@ public class CarController {
      */
     @RequestMapping("un_select_all.do")
     @ResponseBody
-    public ServerResponse<CartVo> unSelectAll(HttpSession session) {
+    public ServerResponse<CarVo> unSelectAll(HttpSession session) {
         User user = (User)session.getAttribute(Const.CURRENT_USER);
         if(user == null) {
             return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(),ResponseCode.NEED_LOGIN.getDesc());
@@ -123,7 +123,7 @@ public class CarController {
      */
     @RequestMapping("select.do")
     @ResponseBody
-    public ServerResponse<CartVo> select(HttpSession session,Integer productId) {
+    public ServerResponse<CarVo> select(HttpSession session, Integer productId) {
         User user = (User)session.getAttribute(Const.CURRENT_USER);
         if(user == null) {
             return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(),ResponseCode.NEED_LOGIN.getDesc());
@@ -139,7 +139,7 @@ public class CarController {
      */
     @RequestMapping("un_select.do")
     @ResponseBody
-    public ServerResponse<CartVo> unSelect(HttpSession session,Integer productId) {
+    public ServerResponse<CarVo> unSelect(HttpSession session, Integer productId) {
         User user = (User)session.getAttribute(Const.CURRENT_USER);
         if(user == null) {
             return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(),ResponseCode.NEED_LOGIN.getDesc());

@@ -3,18 +3,18 @@ package come.point.mall.pointmallbackend.vo;
 import java.math.BigDecimal;
 import java.util.List;
 
-public class CartVo {
-    private List<CartProductVo> cartProductVoList;
+public class CarVo {
+    private List<CarProductVo> carProductVoList;
     private BigDecimal cartTotalPrice;
     private Boolean allChecked;//是否已经都勾选
     private String imageHost;
 
-    public List<CartProductVo> getCartProductVoList() {
-        return cartProductVoList;
+    public List<CarProductVo> getCarProductVoList() {
+        return carProductVoList;
     }
 
-    public void setCartProductVoList(List<CartProductVo> cartProductVoList) {
-        this.cartProductVoList = cartProductVoList;
+    public void setCarProductVoList(List<CarProductVo> carProductVoList) {
+        this.carProductVoList = carProductVoList;
     }
 
     public BigDecimal getCartTotalPrice() {

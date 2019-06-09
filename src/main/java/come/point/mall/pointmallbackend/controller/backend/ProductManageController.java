@@ -47,27 +47,6 @@ public class ProductManageController {
         }
     }
 
-    /**
-     * 获取商品详情
-     * @param session
-     * @param productId
-     * @return
-     */
-    @RequestMapping("detail.do")
-    @ResponseBody
-    public ServerResponse getDetail(HttpSession session, Integer productId) {
-        User user = (User) session.getAttribute(Const.CURRENT_USER);
-        if(user == null) {
-            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(),"用户未登录，请以管理员身份登录");
-        }
-        if(userService.checkAdminRole(user).isSuccess()) {
-            //获取商品详情业务逻辑
-            return productService.manageProductDetail(productId);
-
-        } else {
-            return ServerResponse.createByErrorMessage("无权限操作");
-        }
-    }
 
     /**
      * 后台查询产品list

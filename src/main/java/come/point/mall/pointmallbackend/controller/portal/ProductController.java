@@ -2,8 +2,8 @@ package come.point.mall.pointmallbackend.controller.portal;
 
 import com.github.pagehelper.PageInfo;
 import come.point.mall.pointmallbackend.common.ServerResponse;
+import come.point.mall.pointmallbackend.pojo.Product;
 import come.point.mall.pointmallbackend.service.ProductService;
-import come.point.mall.pointmallbackend.vo.ProductDetailVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -22,7 +22,7 @@ public class ProductController {
      */
     @RequestMapping("detail.do")
     @ResponseBody
-    public ServerResponse<ProductDetailVo> detail(Integer productId) {
+    public ServerResponse<Product> detail(Integer productId) {
         return productService.getProductDetail(productId);
     }
 
