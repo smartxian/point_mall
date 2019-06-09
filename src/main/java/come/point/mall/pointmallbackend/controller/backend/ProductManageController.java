@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 @Controller
@@ -43,28 +42,6 @@ public class ProductManageController {
             //增加产品的业务逻辑
             return productService.saveOrUpdateProduct(product);
 
-        } else {
-            return ServerResponse.createByErrorMessage("无权限操作");
-        }
-    }
-
-    /**
-     * 商品上下架
-     * @param session
-     * @param productId
-     * @param status
-     * @return
-     */
-    @RequestMapping("set_sale_status.do")
-    @ResponseBody
-    public ServerResponse setSaleStatus(HttpSession session, Integer productId,Integer status) {
-        User user = (User) session.getAttribute(Const.CURRENT_USER);
-        if(user == null) {
-            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(),"用户未登录，请以管理员身份登录");
-        }
-        if(userService.checkAdminRole(user).isSuccess()) {
-            //增加产品上下架的业务逻辑
-            return productService.setSaleStatus(productId,status);
         } else {
             return ServerResponse.createByErrorMessage("无权限操作");
         }

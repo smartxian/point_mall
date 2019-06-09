@@ -10,8 +10,8 @@
       <arg column="phone" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="role" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="point" javaType="java.lang.Long" jdbcType="BIGINT" />
-      <arg column="create_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
-      <arg column="update_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="create_time" javaType="java.util.Date" jdbcType="INTEGER" />
+      <arg column="update_time" javaType="java.util.Date" jdbcType="INTEGER" />
     </constructor>
   </resultMap>
   <sql id="Base_Column_List">
@@ -33,8 +33,8 @@
       phone, role, create_time, 
       update_time, point)
     values (#{id,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
-      #{phone,jdbcType=VARCHAR}, #{role,jdbcType=INTEGER}, now(),
-      now(), #{point,jdbcType=BIGINT})
+      #{phone,jdbcType=VARCHAR}, #{role,jdbcType=INTEGER}, current_timestamp(),
+     current_timestamp(), #{point,jdbcType=BIGINT})
   </insert>
   <insert id="insertSelective" parameterType="come.point.mall.pointmallbackend.pojo.User">
     insert into mmall_user
@@ -81,10 +81,10 @@
         #{role,jdbcType=INTEGER},
       </if>
       <if test="createTime != null">
-        now(),
+        current_timestamp(),
       </if>
       <if test="updateTime != null">
-        now(),
+        current_timestamp(),
       </if>
       <if test="point != null">
         #{point,jdbcType=BIGINT},
@@ -107,10 +107,10 @@
         role = #{role,jdbcType=INTEGER},
       </if>
       <if test="createTime != null">
-        create_time = #{createTime,jdbcType=TIMESTAMP},
+        create_time = #{createTime,jdbcType=INTEGER},
       </if>
       <if test="updateTime != null">
-        update_time = now(),
+        update_time = current_timestamp(),
       </if>
       <if test="point != null">
         point = #{point,jdbcType=BIGINT},
@@ -124,8 +124,8 @@
       password = #{password,jdbcType=VARCHAR},
       phone = #{phone,jdbcType=VARCHAR},
       role = #{role,jdbcType=INTEGER},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
-      update_time = now(),
+      create_time = #{createTime,jdbcType=INTEGER},
+      update_time = current_timestamp(),
       point = #{point,jdbcType=BIGINT}
     where id = #{id,jdbcType=INTEGER}
   </update>
