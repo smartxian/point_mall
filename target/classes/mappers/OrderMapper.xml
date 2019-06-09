@@ -5,21 +5,15 @@
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="order_no" property="orderNo" jdbcType="BIGINT" />
     <result column="user_id" property="userId" jdbcType="INTEGER" />
-    <result column="shipping_id" property="shippingId" jdbcType="INTEGER" />
-    <result column="payment" property="payment" jdbcType="DECIMAL" />
-    <result column="payment_type" property="paymentType" jdbcType="INTEGER" />
-    <result column="postage" property="postage" jdbcType="INTEGER" />
+    <result column="shipping_id" property="addressId" jdbcType="INTEGER" />
+    <result column="product_id" property="productId" jdbcType="INTEGER" />
+    <result column="product_num" property="productNum" jdbcType="INTEGER" />
     <result column="status" property="status" jdbcType="INTEGER" />
-    <result column="payment_time" property="paymentTime" jdbcType="TIMESTAMP" />
-    <result column="send_time" property="sendTime" jdbcType="TIMESTAMP" />
-    <result column="end_time" property="endTime" jdbcType="TIMESTAMP" />
-    <result column="close_time" property="closeTime" jdbcType="TIMESTAMP" />
-    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
-    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="create_time" property="createTime" jdbcType="INTEGER" />
+    <result column="update_time" property="updateTime" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, order_no, user_id, shipping_id, payment, payment_type, postage, status, payment_time, 
-    send_time, end_time, close_time, create_time, update_time
+    id, order_no, user_id, address_id, product_id,product_num, status, create_time, update_time
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -33,15 +27,11 @@
   </delete>
   <insert id="insert" parameterType="come.point.mall.pointmallbackend.pojo.Order" >
     insert into mmall_order (id, order_no, user_id, 
-      shipping_id, payment, payment_type, 
-      postage, status, payment_time, 
-      send_time, end_time, close_time, 
+      address_id, product_id,product_num, status, end_time, close_time,
       create_time, update_time)
     values (#{id,jdbcType=INTEGER}, #{orderNo,jdbcType=BIGINT}, #{userId,jdbcType=INTEGER}, 
-      #{shippingId,jdbcType=INTEGER}, #{payment,jdbcType=DECIMAL}, #{paymentType,jdbcType=INTEGER}, 
-      #{postage,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, #{paymentTime,jdbcType=TIMESTAMP}, 
-      #{sendTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, #{closeTime,jdbcType=TIMESTAMP}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+      #{addressId,jdbcType=INTEGER}, #{productId},#{productNum}, #{status,jdbcType=INTEGER},
+      current_timestamp(), current_timestamp())
   </insert>
   <insert id="insertSelective" parameterType="come.point.mall.pointmallbackend.pojo.Order" >
     insert into mmall_order
@@ -55,32 +45,17 @@
       <if test="userId != null" >
         user_id,
       </if>
-      <if test="shippingId != null" >
-        shipping_id,
+      <if test="addressId != null" >
+        address_id,
       </if>
-      <if test="payment != null" >
-        payment,
+      <if test="productId != null" >
+        product_id,
       </if>
-      <if test="paymentType != null" >
-        payment_type,
-      </if>
-      <if test="postage != null" >
-        postage,
+      <if test="productNum != null" >
+        product_num,
       </if>
       <if test="status != null" >
         status,
-      </if>
-      <if test="paymentTime != null" >
-        payment_time,
-      </if>
-      <if test="sendTime != null" >
-        send_time,
-      </if>
-      <if test="endTime != null" >
-        end_time,
-      </if>
-      <if test="closeTime != null" >
-        close_time,
       </if>
       <if test="createTime != null" >
         create_time,
@@ -100,37 +75,22 @@
         #{userId,jdbcType=INTEGER},
       </if>
       <if test="shippingId != null" >
-        #{shippingId,jdbcType=INTEGER},
+        #{addressId,jdbcType=INTEGER},
       </if>
-      <if test="payment != null" >
-        #{payment,jdbcType=DECIMAL},
+      <if test="productId != null" >
+        #{productId,jdbcType=INTEGER},
       </if>
-      <if test="paymentType != null" >
-        #{paymentType,jdbcType=INTEGER},
-      </if>
-      <if test="postage != null" >
-        #{postage,jdbcType=INTEGER},
+      <if test="productNum != null" >
+        #{productNum,jdbcType=INTEGER},
       </if>
       <if test="status != null" >
         #{status,jdbcType=INTEGER},
       </if>
-      <if test="paymentTime != null" >
-        #{paymentTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="sendTime != null" >
-        #{sendTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="endTime != null" >
-        #{endTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="closeTime != null" >
-        #{closeTime,jdbcType=TIMESTAMP},
-      </if>
       <if test="createTime != null" >
-        #{createTime,jdbcType=TIMESTAMP},
+        current_timestamp(),
       </if>
       <if test="updateTime != null" >
-        #{updateTime,jdbcType=TIMESTAMP},
+        current_timestamp(),
       </if>
     </trim>
   </insert>
@@ -143,38 +103,23 @@
       <if test="userId != null" >
         user_id = #{userId,jdbcType=INTEGER},
       </if>
-      <if test="shippingId != null" >
-        shipping_id = #{shippingId,jdbcType=INTEGER},
+      <if test="addressId != null" >
+        address_id = #{shippingId,jdbcType=INTEGER},
       </if>
-      <if test="payment != null" >
-        payment = #{payment,jdbcType=DECIMAL},
+      <if test="productId != null" >
+        product_id = #{payment,jdbcType=INTEGER},
       </if>
-      <if test="paymentType != null" >
-        payment_type = #{paymentType,jdbcType=INTEGER},
-      </if>
-      <if test="postage != null" >
-        postage = #{postage,jdbcType=INTEGER},
+      <if test="productNum != null" >
+        product_num = #{paymentType,jdbcType=INTEGER},
       </if>
       <if test="status != null" >
         status = #{status,jdbcType=INTEGER},
       </if>
-      <if test="paymentTime != null" >
-        payment_time = #{paymentTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="sendTime != null" >
-        send_time = #{sendTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="endTime != null" >
-        end_time = #{endTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="closeTime != null" >
-        close_time = #{closeTime,jdbcType=TIMESTAMP},
-      </if>
       <if test="createTime != null" >
-        create_time = #{createTime,jdbcType=TIMESTAMP},
+        create_time = #{createTime,jdbcType=INTEGER},
       </if>
       <if test="updateTime != null" >
-        update_time = #{updateTime,jdbcType=TIMESTAMP},
+        update_time = current_timestamp(),
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
@@ -183,17 +128,12 @@
     update mmall_order
     set order_no = #{orderNo,jdbcType=BIGINT},
       user_id = #{userId,jdbcType=INTEGER},
-      shipping_id = #{shippingId,jdbcType=INTEGER},
-      payment = #{payment,jdbcType=DECIMAL},
-      payment_type = #{paymentType,jdbcType=INTEGER},
-      postage = #{postage,jdbcType=INTEGER},
+      address_id = #{addressId,jdbcType=INTEGER},
+      product_id = #{productId,jdbcType=INTEGER},
+      product_num = #{productNum,jdbcType=INTEGER},
       status = #{status,jdbcType=INTEGER},
-      payment_time = #{paymentTime,jdbcType=TIMESTAMP},
-      send_time = #{sendTime,jdbcType=TIMESTAMP},
-      end_time = #{endTime,jdbcType=TIMESTAMP},
-      close_time = #{closeTime,jdbcType=TIMESTAMP},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
-      update_time = #{updateTime,jdbcType=TIMESTAMP}
+      create_time = #{createTime,jdbcType=INTEGER},
+      update_time = current_timestamp()
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

@@ -4,16 +4,9 @@
   <resultMap id="BaseResultMap" type="come.point.mall.pointmallbackend.pojo.Shipping" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="user_id" property="userId" jdbcType="INTEGER" />
-    <result column="receiver_name" property="receiverName" jdbcType="VARCHAR" />
-    <result column="receiver_phone" property="receiverPhone" jdbcType="VARCHAR" />
-    <result column="receiver_mobile" property="receiverMobile" jdbcType="VARCHAR" />
-    <result column="receiver_province" property="receiverProvince" jdbcType="VARCHAR" />
-    <result column="receiver_city" property="receiverCity" jdbcType="VARCHAR" />
-    <result column="receiver_district" property="receiverDistrict" jdbcType="VARCHAR" />
-    <result column="receiver_address" property="receiverAddress" jdbcType="VARCHAR" />
-    <result column="receiver_zip" property="receiverZip" jdbcType="VARCHAR" />
-    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
-    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="receiver_desc" property="receiverDesc" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="INTEGER" />
+    <result column="update_time" property="updateTime" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, user_id, receiver_name, receiver_phone, receiver_mobile, receiver_province, receiver_city, 
@@ -30,15 +23,9 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="come.point.mall.pointmallbackend.pojo.Shipping" >
-    insert into mmall_shipping (id, user_id, receiver_name, 
-      receiver_phone, receiver_mobile, receiver_province, 
-      receiver_city, receiver_district, receiver_address, 
-      receiver_zip, create_time, update_time
+    insert into mmall_shipping (id, user_id, receiver_desc, create_time, update_time
       )
-    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{receiverName,jdbcType=VARCHAR}, 
-      #{receiverPhone,jdbcType=VARCHAR}, #{receiverMobile,jdbcType=VARCHAR}, #{receiverProvince,jdbcType=VARCHAR}, 
-      #{receiverCity,jdbcType=VARCHAR}, #{receiverDistrict,jdbcType=VARCHAR}, #{receiverAddress,jdbcType=VARCHAR}, 
-      #{receiverZip,jdbcType=VARCHAR}, now(), now()
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{receiverDesc,jdbcType=VARCHAR},current_timestamp(), current_timestamp()
       )
   </insert>
   <insert id="insertSelective" parameterType="come.point.mall.pointmallbackend.pojo.Shipping" >
@@ -50,29 +37,8 @@
       <if test="userId != null" >
         user_id,
       </if>
-      <if test="receiverName != null" >
+      <if test="receiverDesc != null" >
         receiver_name,
-      </if>
-      <if test="receiverPhone != null" >
-        receiver_phone,
-      </if>
-      <if test="receiverMobile != null" >
-        receiver_mobile,
-      </if>
-      <if test="receiverProvince != null" >
-        receiver_province,
-      </if>
-      <if test="receiverCity != null" >
-        receiver_city,
-      </if>
-      <if test="receiverDistrict != null" >
-        receiver_district,
-      </if>
-      <if test="receiverAddress != null" >
-        receiver_address,
-      </if>
-      <if test="receiverZip != null" >
-        receiver_zip,
       </if>
       <if test="createTime != null" >
         create_time,
@@ -89,34 +55,13 @@
         #{userId,jdbcType=INTEGER},
       </if>
       <if test="receiverName != null" >
-        #{receiverName,jdbcType=VARCHAR},
-      </if>
-      <if test="receiverPhone != null" >
-        #{receiverPhone,jdbcType=VARCHAR},
-      </if>
-      <if test="receiverMobile != null" >
-        #{receiverMobile,jdbcType=VARCHAR},
-      </if>
-      <if test="receiverProvince != null" >
-        #{receiverProvince,jdbcType=VARCHAR},
-      </if>
-      <if test="receiverCity != null" >
-        #{receiverCity,jdbcType=VARCHAR},
-      </if>
-      <if test="receiverDistrict != null" >
-        #{receiverDistrict,jdbcType=VARCHAR},
-      </if>
-      <if test="receiverAddress != null" >
-        #{receiverAddress,jdbcType=VARCHAR},
-      </if>
-      <if test="receiverZip != null" >
-        #{receiverZip,jdbcType=VARCHAR},
+        #{receiverDesc,jdbcType=VARCHAR},
       </if>
       <if test="createTime != null" >
-       now(),
+        current_timestamp(),
       </if>
       <if test="updateTime != null" >
-        now(),
+        current_timestamp(),
       </if>
     </trim>
   </insert>
@@ -126,35 +71,14 @@
       <if test="userId != null" >
         user_id = #{userId,jdbcType=INTEGER},
       </if>
-      <if test="receiverName != null" >
-        receiver_name = #{receiverName,jdbcType=VARCHAR},
-      </if>
-      <if test="receiverPhone != null" >
-        receiver_phone = #{receiverPhone,jdbcType=VARCHAR},
-      </if>
-      <if test="receiverMobile != null" >
-        receiver_mobile = #{receiverMobile,jdbcType=VARCHAR},
-      </if>
-      <if test="receiverProvince != null" >
-        receiver_province = #{receiverProvince,jdbcType=VARCHAR},
-      </if>
-      <if test="receiverCity != null" >
-        receiver_city = #{receiverCity,jdbcType=VARCHAR},
-      </if>
-      <if test="receiverDistrict != null" >
-        receiver_district = #{receiverDistrict,jdbcType=VARCHAR},
-      </if>
-      <if test="receiverAddress != null" >
-        receiver_address = #{receiverAddress,jdbcType=VARCHAR},
-      </if>
-      <if test="receiverZip != null" >
-        receiver_zip = #{receiverZip,jdbcType=VARCHAR},
+      <if test="receiverDesc != null" >
+        receiver_desc = #{receiverDesc,jdbcType=VARCHAR},
       </if>
       <if test="createTime != null" >
-        create_time = #{createTime,jdbcType=TIMESTAMP},
+        create_time = #{createTime,jdbcType=INTEGER},
       </if>
       <if test="updateTime != null" >
-        update_time = now(),
+        update_time = current_timestamp(),
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
@@ -162,16 +86,9 @@
   <update id="updateByPrimaryKey" parameterType="come.point.mall.pointmallbackend.pojo.Shipping" >
     update mmall_shipping
     set user_id = #{userId,jdbcType=INTEGER},
-      receiver_name = #{receiverName,jdbcType=VARCHAR},
-      receiver_phone = #{receiverPhone,jdbcType=VARCHAR},
-      receiver_mobile = #{receiverMobile,jdbcType=VARCHAR},
-      receiver_province = #{receiverProvince,jdbcType=VARCHAR},
-      receiver_city = #{receiverCity,jdbcType=VARCHAR},
-      receiver_district = #{receiverDistrict,jdbcType=VARCHAR},
-      receiver_address = #{receiverAddress,jdbcType=VARCHAR},
-      receiver_zip = #{receiverZip,jdbcType=VARCHAR},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
-      update_time = now()
+      receiver_desc = #{receiverDesc,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=INTEGER},
+      update_time = current_timestamp()
     where id = #{id,jdbcType=INTEGER}
   </update>
 
@@ -184,16 +101,9 @@
   <update id="updateByShipping" parameterType="come.point.mall.pointmallbackend.pojo.Shipping">
     update mmall_shipping
     set
-      receiver_name = #{receiverName,jdbcType=VARCHAR},
-      receiver_phone = #{receiverPhone,jdbcType=VARCHAR},
-      receiver_mobile = #{receiverMobile,jdbcType=VARCHAR},
-      receiver_province = #{receiverProvince,jdbcType=VARCHAR},
-      receiver_city = #{receiverCity,jdbcType=VARCHAR},
-      receiver_district = #{receiverDistrict,jdbcType=VARCHAR},
-      receiver_address = #{receiverAddress,jdbcType=VARCHAR},
-      receiver_zip = #{receiverZip,jdbcType=VARCHAR},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
-      update_time = now()
+      receiver_desc = #{receiverDesc,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=INTEGER},
+      update_time = current_timestamp()
     where id = #{id,jdbcType=INTEGER}
     and user_id = #{userId,jdbcType=INTEGER}
   </update>

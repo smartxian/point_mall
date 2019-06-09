@@ -167,7 +167,7 @@ public class CarServiceImpl implements CarService {
                     cartProductVo.setProductMainImage(product.getMainImage());
                     cartProductVo.setProductName(product.getName());
                     cartProductVo.setProductSubTitle(product.getSubtitle());
-                    cartProductVo.setProductStatus(product.getStatus());
+//                    cartProductVo.setProductStatus(product.getStatus());
                     cartProductVo.setProductPrice(product.getPrice());
                     cartProductVo.setProductStock(product.getStock());
                     //判断库存
@@ -188,7 +188,8 @@ public class CarServiceImpl implements CarService {
                     }
                     cartProductVo.setQuantity(buyLimitCount);
                     //计算总价
-                    cartProductVo.setProductTotalPrice(BigDecimalUtil.mul(product.getPrice().doubleValue(),cartProductVo.getQuantity()));//某一产品的总价
+//                    cartProductVo.setProductTotalPrice(BigDecimalUtil.mul(product.getPrice().doubleValue(),cartProductVo.getQuantity()));//某一产品的总价
+                    cartProductVo.setProductTotalPrice(Math.multiplyExact(product.getPrice(),cartProductVo.getQuantity()));
                     cartProductVo.setProductChecked(cartItem.getChecked());
                 }
                 if(cartItem.getChecked() == Const.Cart.CHECKED) {

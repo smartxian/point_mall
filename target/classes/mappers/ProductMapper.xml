@@ -7,17 +7,14 @@
     <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="subtitle" property="subtitle" jdbcType="VARCHAR" />
     <result column="main_image" property="mainImage" jdbcType="VARCHAR" />
-    <result column="sub_images" property="subImages" jdbcType="LONGVARCHAR" />
-    <result column="detail" property="detail" jdbcType="LONGVARCHAR" />
-    <result column="price" property="price" jdbcType="DECIMAL" />
+    <result column="price" property="price" jdbcType="INTEGER" />
     <result column="stock" property="stock" jdbcType="INTEGER" />
-    <result column="status" property="status" jdbcType="INTEGER" />
-    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
-    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="create_time" property="createTime" jdbcType="INTEGER" />
+    <result column="update_time" property="updateTime" jdbcType="INTEGER" />
   </resultMap>
 
   <sql id="Base_Column_List" >
-    id, category_id, name, subtitle, main_image,sub_images,detail, price, stock, status, create_time, update_time
+    id, category_id, name, subtitle, main_image, price, stock, create_time, update_time
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -32,13 +29,13 @@
   <insert id="insert" parameterType="come.point.mall.pointmallbackend.pojo.Product" >
     insert into mmall_product (id, category_id, name, 
       subtitle, main_image, price, 
-      stock, status, create_time, 
-      update_time, sub_images, detail
+      stock, create_time,
+      update_time
       )
     values (#{id,jdbcType=INTEGER}, #{categoryId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
       #{subtitle,jdbcType=VARCHAR}, #{mainImage,jdbcType=VARCHAR}, #{price,jdbcType=DECIMAL}, 
-      #{stock,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{updateTime,jdbcType=TIMESTAMP}, #{subImages,jdbcType=LONGVARCHAR}, #{detail,jdbcType=LONGVARCHAR}
+      #{stock,jdbcType=INTEGER},current_timestamp(),
+      current_timestamp()
       )
   </insert>
   <insert id="insertSelective" parameterType="come.point.mall.pointmallbackend.pojo.Product" >
@@ -65,20 +62,11 @@
       <if test="stock != null" >
         stock,
       </if>
-      <if test="status != null" >
-        status,
-      </if>
       <if test="createTime != null" >
         create_time,
       </if>
       <if test="updateTime != null" >
         update_time,
-      </if>
-      <if test="subImages != null" >
-        sub_images,
-      </if>
-      <if test="detail != null" >
-        detail,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -103,20 +91,11 @@
       <if test="stock != null" >
         #{stock,jdbcType=INTEGER},
       </if>
-      <if test="status != null" >
-        #{status,jdbcType=INTEGER},
-      </if>
       <if test="createTime != null" >
-        #{createTime,jdbcType=TIMESTAMP},
+        current_timestamp(),
       </if>
       <if test="updateTime != null" >
-        #{updateTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="subImages != null" >
-        #{subImages,jdbcType=LONGVARCHAR},
-      </if>
-      <if test="detail != null" >
-        #{detail,jdbcType=LONGVARCHAR},
+        current_timestamp(),
       </if>
     </trim>
   </insert>
@@ -141,20 +120,11 @@
       <if test="stock != null" >
         stock = #{stock,jdbcType=INTEGER},
       </if>
-      <if test="status != null" >
-        status = #{status,jdbcType=INTEGER},
-      </if>
       <if test="createTime != null" >
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
       <if test="updateTime != null" >
-        update_time = #{updateTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="subImages != null" >
-        sub_images = #{subImages,jdbcType=LONGVARCHAR},
-      </if>
-      <if test="detail != null" >
-        detail = #{detail,jdbcType=LONGVARCHAR},
+        update_time = current_timestamp(),
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
@@ -167,11 +137,8 @@
       main_image = #{mainImage,jdbcType=VARCHAR},
       price = #{price,jdbcType=DECIMAL},
       stock = #{stock,jdbcType=INTEGER},
-      status = #{status,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},
-      update_time = #{updateTime,jdbcType=TIMESTAMP},
-      sub_images = #{subImages,jdbcType=LONGVARCHAR},
-      detail = #{detail,jdbcType=LONGVARCHAR}
+      update_time = current_timestamp()
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="come.point.mall.pointmallbackend.pojo.Product" >
@@ -182,9 +149,8 @@
       main_image = #{mainImage,jdbcType=VARCHAR},
       price = #{price,jdbcType=DECIMAL},
       stock = #{stock,jdbcType=INTEGER},
-      status = #{status,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},
-      update_time = #{updateTime,jdbcType=TIMESTAMP}
+      update_time = current_timestamp()
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

@@ -14,9 +14,9 @@ public class CartProductVo {
     private String productName;
     private String productSubTitle;
     private String productMainImage;
-    private BigDecimal productPrice;
-    private Integer productStatus;
-    private BigDecimal productTotalPrice;
+    private Long productPrice;
+//    private Integer productStatus;
+    private Long productTotalPrice;
     private Integer productStock;
     private Integer productChecked;//此商品是否勾选
 
